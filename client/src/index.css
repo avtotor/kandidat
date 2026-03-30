@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;300;400;500;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;       /* #0a0a0a */
+    --foreground: 0 0% 95%;      /* #f2f2f2 */
+    
+    /* Neon Green / Industrial Accent */
+    --primary: 111 100% 54%;     /* #39ff14 */
+    --primary-foreground: 0 0% 4%;
+    
+    /* Muted/Borders */
+    --muted: 0 0% 12%;           /* #1f1f1f */
+    --muted-foreground: 0 0% 65%;/* #a6a6a6 */
+    --border: 0 0% 20%;          /* #333333 */
+    
+    /* Feedback Colors */
+    --success: 111 100% 54%;     /* Neon Green */
+    --destructive: 16 100% 50%;  /* Neon Orange/Red #ff4500 */
+    --destructive-foreground: 0 0% 95%;
+
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-mono);
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: center center;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold uppercase tracking-wider;
+  }
+}
+
+@layer utilities {
+  .industrial-border {
+    @apply border border-border bg-background/80 backdrop-blur-sm relative;
+  }
+  
+  .industrial-border::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: -1px;
+    width: 6px; height: 6px;
+    border-top: 1px solid hsl(var(--primary));
+    border-left: 1px solid hsl(var(--primary));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .industrial-border::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; right: -1px;
+    width: 6px; height: 6px;
+    border-bottom: 1px solid hsl(var(--primary));
+    border-right: 1px solid hsl(var(--primary));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .industrial-border:hover::before,
+  .industrial-border:hover::after {
+    opacity: 1;
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 8px hsl(var(--primary) / 0.5);
+  }
+
+  .text-glow-destructive {
+    text-shadow: 0 0 8px hsl(var(--destructive) / 0.5);
+  }
+
+  .box-glow-primary {
+    box-shadow: 0 0 15px -3px hsl(var(--primary) / 0.2), 0 0 6px -2px hsl(var(--primary) / 0.2);
+  }
+
+  .box-glow-destructive {
+    box-shadow: 0 0 15px -3px hsl(var(--destructive) / 0.2), 0 0 6px -2px hsl(var(--destructive) / 0.2);
+  }
+
+  /* «Хакерский» акцент для слова TEST на главной */
+  .hacker-test-word {
+    color: hsl(var(--primary));
+    text-shadow:
+      0 0 10px hsl(var(--primary) / 0.55),
+      0 0 24px hsl(var(--primary) / 0.25);
+    animation: hacker-text-flicker 4.5s steps(1, end) infinite;
+  }
+
+  .hacker-test-word::before,
+  .hacker-test-word::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0;
+  }
+
+  .hacker-test-word::before {
+    color: hsl(var(--destructive));
+    text-shadow: -2px 0 hsl(var(--destructive) / 0.95);
+    animation: hacker-chrome-1 3.1s ease-in-out infinite;
+    clip-path: inset(0 0 55% 0);
+  }
+
+  .hacker-test-word::after {
+    color: hsl(190 100% 58%);
+    text-shadow: 2px 0 hsl(190 100% 58% / 0.85);
+    animation: hacker-chrome-2 2.7s ease-in-out infinite;
+    clip-path: inset(45% 0 0 0);
+  }
+}
+
+@keyframes hacker-text-flicker {
+  0%,
+  94%,
+  96%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  95% {
+    opacity: 0.92;
+    filter: brightness(1.35);
+  }
+}
+
+@keyframes hacker-chrome-1 {
+  0%,
+  86%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  87% {
+    opacity: 0.55;
+    transform: translate(-3px, -1px);
+  }
+  88% {
+    opacity: 0.35;
+    transform: translate(2px, 1px);
+  }
+  89% {
+    opacity: 0.5;
+    transform: translate(-1px, 0);
+  }
+}
+
+@keyframes hacker-chrome-2 {
+  0%,
+  91%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  92% {
+    opacity: 0.45;
+    transform: translate(3px, 1px);
+  }
+  93% {
+    opacity: 0.28;
+    transform: translate(-2px, -1px);
+  }
+}
+
+@keyframes blink-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink-cursor {
+  animation: blink-cursor 1.05s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hacker-test-word {
+    animation: none;
+    text-shadow: 0 0 8px hsl(var(--primary) / 0.45);
+  }
+
+  .hacker-test-word::before,
+  .hacker-test-word::after {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .animate-blink-cursor {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* CRT Scanline overlay effect */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.1)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.4;
+}
